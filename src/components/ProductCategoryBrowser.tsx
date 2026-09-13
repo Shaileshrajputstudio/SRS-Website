@@ -34,20 +34,23 @@ export function ProductCategoryBrowser({
     () => categories.find((c) => c === requestedCategory) ?? categories[0],
   );
   const [query, setQuery] = useState("");
-  // Searches within the active category tab, not across all of them — the
-  // tabs stay the primary way to narrow things down, search just refines
-  // whichever one is open, matching a name/series a visitor already has
-  // in mind rather than replacing the category browse entirely.
+  // A non-empty query searches every product, across every category, not
+  // just whichever tab happens to be active — a visitor searching by name
+  // shouldn't have to already know (or guess) which category it's filed
+  // under first. Clearing the query goes back to the normal tab-filtered
+  // browse. Picking a tab while a search is active clears the query (see
+  // the tab button below) rather than leaving a stale search "on" behind
+  // a category that no longer reflects it.
   const normalizedQuery = query.trim().toLowerCase();
   const filtered = useMemo(
     () =>
       products.filter((p) => {
-        if (p.category !== active) return false;
-        if (!normalizedQuery) return true;
+        if (!normalizedQuery) return p.category === active;
         return (
           p.displayName.toLowerCase().includes(normalizedQuery) ||
           p.romanized.toLowerCase().includes(normalizedQuery) ||
-          p.series.toLowerCase().includes(normalizedQuery)
+          p.series.toLowerCase().includes(normalizedQuery) ||
+          p.category.toLowerCase().includes(normalizedQuery)
         );
       }),
     [products, active, normalizedQuery],
@@ -72,8 +75,8 @@ export function ProductCategoryBrowser({
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder={`Search ${active}…`}
-            aria-label="Search products in this category"
+            placeholder="Search all products…"
+            aria-label="Search all products"
             className="font-sans-ui w-full rounded-full border border-[var(--line)] bg-[var(--paper)] py-2.5 pr-4 pl-10 text-sm text-[var(--ink)] outline-none transition focus:border-[var(--ink)]"
           />
         </div>
@@ -84,9 +87,12 @@ export function ProductCategoryBrowser({
           {categories.map((category) => (
             <button
               key={category}
-              onClick={() => setActive(category)}
+              onClick={() => {
+                setActive(category);
+                setQuery("");
+              }}
               className={`shrink-0 px-4 py-3 text-sm whitespace-nowrap transition ${
-                active === category
+                active === category && !normalizedQuery
                   ? "bg-[var(--ink)] text-white"
                   : "text-[var(--ink)]/60 hover:text-[var(--ink)]"
               }`}
@@ -101,7 +107,7 @@ export function ProductCategoryBrowser({
         {filtered.length === 0 ? (
           <p className="py-16 text-center text-[var(--ink)]/50">
             {normalizedQuery
-              ? `No pieces in ${active} match "${query.trim()}".`
+              ? `No products match "${query.trim()}".`
               : "More pieces from this category are on their way."}
           </p>
         ) : (
@@ -110,7 +116,7 @@ export function ProductCategoryBrowser({
             staggerChildren
             stagger={0.06}
             duration={0.6}
-            key={active}
+            key={normalizedQuery ? "search" : active}
             className="grid grid-cols-1 gap-x-6 gap-y-20 sm:grid-cols-2 lg:grid-cols-4"
           >
             {filtered.map((product) => (

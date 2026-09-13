@@ -15,12 +15,12 @@ export function FeaturedCarousel({ products }: { products: Product[] }) {
       keyFor={(product, i) => `${product.slug}-${i}`}
       renderItem={(product) => (
         <Link href={`/products/${product.slug}`} className="group block w-[220px] shrink-0 sm:w-[280px]">
-          <div className="mb-3 aspect-[4/5] overflow-hidden bg-[var(--paper-2)]">
+          <div className="mb-3 aspect-[3/4] overflow-hidden bg-[var(--paper-2)]">
             <Image
               src={product.images[0]}
               alt={product.romanized}
-              width={800}
-              height={1000}
+              width={900}
+              height={1200}
               unoptimized
               className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
             />
