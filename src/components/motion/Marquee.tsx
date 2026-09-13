@@ -22,9 +22,13 @@ type MarqueeProps<T> = {
 // literal 1:1 link, giving the whole thing a bit of scroll-speed-based
 // motion without being distracting. Renders the item list twice back-to-
 // back and wraps the position at the halfway point, so the loop is
-// seamless. Pauses on hover; under `prefers-reduced-motion` it renders the
-// same doubled track but never starts moving, so content stays reachable
-// without motion.
+// seamless. Pauses on hover, and can also be dragged (mouse or touch) to
+// scrub through it directly — dragging always pauses the drift, and on
+// release it only auto-resumes if the pointer wasn't a mouse still
+// hovering (mouse: stays paused, matching the existing hover-pause;
+// touch: resumes immediately, since touch has no hover state to wait
+// on). Under `prefers-reduced-motion` it renders the same doubled track
+// but never starts moving on its own — dragging still works either way.
 export function Marquee<T>({
   items,
   renderItem,
@@ -40,11 +44,18 @@ export function Marquee<T>({
     const wrapper = wrapperRef.current;
     const trackEl = trackRef.current;
     if (!wrapper || !trackEl) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     let x = 0;
     let paused = false;
     let halfWidth = trackEl.scrollWidth / 2;
+
+    const wrapX = (val: number) => {
+      if (halfWidth === 0) return val;
+      let v = val % halfWidth;
+      if (v > 0) v -= halfWidth;
+      return v;
+    };
 
     const measure = () => {
       halfWidth = trackEl.scrollWidth / 2;
@@ -57,8 +68,67 @@ export function Marquee<T>({
     wrapper.addEventListener("mouseenter", onEnter);
     wrapper.addEventListener("mouseleave", onLeave);
 
+    // Drag-to-scrub: a plain click still navigates (FeaturedCarousel's
+    // items are links) — only a drag that actually moves past a small
+    // threshold suppresses the click that would otherwise fire on
+    // pointerup, via a capture-phase listener below.
+    let dragging = false;
+    let dragMoved = false;
+    let dragPointerId: number | null = null;
+    let dragStartClientX = 0;
+    let dragStartX = 0;
+
+    const onPointerDown = (e: PointerEvent) => {
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      dragging = true;
+      dragMoved = false;
+      paused = true;
+      dragPointerId = e.pointerId;
+      dragStartClientX = e.clientX;
+      dragStartX = x;
+      try {
+        wrapper.setPointerCapture(e.pointerId);
+      } catch {
+        // No active pointer session for this id (seen with synthetic/
+        // programmatic pointer events) — dragging still works via the
+        // window-level move/up listeners below, capture just isn't
+        // guaranteed once the pointer leaves the wrapper's bounds.
+      }
+    };
+    const onPointerMove = (e: PointerEvent) => {
+      if (!dragging || e.pointerId !== dragPointerId) return;
+      const dx = e.clientX - dragStartClientX;
+      if (Math.abs(dx) > 4) dragMoved = true;
+      x = wrapX(dragStartX + dx);
+      gsap.set(trackEl, { x });
+    };
+    const onPointerUp = (e: PointerEvent) => {
+      if (!dragging || e.pointerId !== dragPointerId) return;
+      dragging = false;
+      dragPointerId = null;
+      try {
+        wrapper.releasePointerCapture(e.pointerId);
+      } catch {
+        // already released (e.g. pointercancel) — nothing to do
+      }
+      if (e.pointerType !== "mouse") paused = false;
+    };
+    const onClickCapture = (e: MouseEvent) => {
+      if (dragMoved) {
+        e.preventDefault();
+        e.stopPropagation();
+        dragMoved = false;
+      }
+    };
+
+    wrapper.addEventListener("pointerdown", onPointerDown);
+    window.addEventListener("pointermove", onPointerMove);
+    window.addEventListener("pointerup", onPointerUp);
+    window.addEventListener("pointercancel", onPointerUp);
+    wrapper.addEventListener("click", onClickCapture, true);
+
     const tick = (_time: number, deltaMs: number) => {
-      if (paused || halfWidth === 0) return;
+      if (paused || dragging || reduceMotion || halfWidth === 0) return;
       const dt = deltaMs / 1000;
       // A gentle boost from how fast the page is being scrolled right now
       // — capped, so a flick of the wheel doesn't send the strip flying.
@@ -74,11 +144,19 @@ export function Marquee<T>({
       ro.disconnect();
       wrapper.removeEventListener("mouseenter", onEnter);
       wrapper.removeEventListener("mouseleave", onLeave);
+      wrapper.removeEventListener("pointerdown", onPointerDown);
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("pointerup", onPointerUp);
+      window.removeEventListener("pointercancel", onPointerUp);
+      wrapper.removeEventListener("click", onClickCapture, true);
     };
   }, [speed]);
 
   return (
-    <div ref={wrapperRef} className="marquee-wrapper relative overflow-hidden">
+    <div
+      ref={wrapperRef}
+      className="marquee-wrapper relative touch-pan-y cursor-grab overflow-hidden [-webkit-user-select:none] select-none active:cursor-grabbing"
+    >
       <div ref={trackRef} className={`flex w-max ${trackClassName}`}>
         {track.map((item, i) => (
           <Fragment key={keyFor(item, i)}>{renderItem(item, i)}</Fragment>

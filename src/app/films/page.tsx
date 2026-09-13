@@ -64,7 +64,11 @@ export default function FilmsPage() {
                 <ArrowIcon className="h-3.5 w-3.5" />
               </Link>
             </div>
-            <Reveal as="div" staggerChildren className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-6">
+            <Reveal
+              as="div"
+              staggerChildren
+              className="grid grid-cols-2 justify-items-center gap-4 sm:grid-cols-4 lg:grid-cols-6"
+            >
               {g.films.map((film) =>
                 film.videoSrc ? (
                   <FilmThumb

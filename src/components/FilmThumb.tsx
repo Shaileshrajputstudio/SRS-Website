@@ -107,13 +107,20 @@ export function FilmThumb({
 
   return (
     <>
+      {/* No mx-auto here — this is rendered inside a `flex flex-wrap
+          justify-center gap-4` group on the collection chapter pages,
+          and margin:auto on every flex item shares out ALL the row's
+          leftover space across those auto margins, which blew the gap
+          between cards out far past `gap-4`. The grid usage on
+          /films (grid-cols-N) centers each thumb within its own cell
+          via `justify-items-center` on the grid instead. */}
       <div
         ref={cardRef}
         role="button"
         tabIndex={0}
         onClick={handleOpen}
         onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && handleOpen()}
-        className={`group relative mx-auto w-full max-w-[180px] cursor-pointer overflow-hidden rounded-2xl bg-[var(--ink)] ${className}`}
+        className={`group relative w-full max-w-[180px] cursor-pointer overflow-hidden rounded-2xl bg-[var(--ink)] ${className}`}
       >
         <div className="pointer-events-none absolute inset-x-0 top-0 z-10 bg-gradient-to-b from-black/70 to-transparent px-3 pt-3 pb-8 text-white">
           <p className="text-sm">{film.title}</p>

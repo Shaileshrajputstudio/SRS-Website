@@ -44,7 +44,7 @@ export function Footer() {
 
           <div className="font-sans-ui text-sm">
             <p className="mb-3 tracking-[0.15em] text-[var(--ash)] uppercase">Explore</p>
-            <ul className="space-y-2 text-[var(--ink)]/70">
+            <ul className="space-y-4 text-[var(--ink)]/70">
               <li><Link href="/products" className={`hover:text-[var(--ink)] ${linkUnderline}`}>Products</Link></li>
               <li><Link href="/collections" className={`hover:text-[var(--ink)] ${linkUnderline}`}>Stories</Link></li>
               <li><Link href="/world" className={`hover:text-[var(--ink)] ${linkUnderline}`}>The Studio</Link></li>

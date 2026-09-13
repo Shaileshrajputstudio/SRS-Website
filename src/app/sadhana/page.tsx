@@ -81,7 +81,7 @@ export default function SadhanaPage() {
         </div>
       </section>
 
-      <section className="border-t border-[var(--line)] bg-[var(--footer-bg)] px-6 py-20">
+      <section className="bg-[var(--footer-bg)] px-6 py-20">
         <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-10 sm:grid-cols-2 sm:gap-16">
           <div className="order-2 sm:order-1">
             <Reveal>

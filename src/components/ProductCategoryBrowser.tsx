@@ -2,10 +2,20 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import type { Product, ProductCategory } from "@/data/products";
 import { Reveal } from "@/components/motion/Reveal";
+import { RevealText } from "@/components/motion/RevealText";
+
+function SearchIcon({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+      <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="1.6" />
+      <path d="m20 20-3.5-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  );
+}
 
 export function ProductCategoryBrowser({
   categories,
@@ -23,10 +33,52 @@ export function ProductCategoryBrowser({
   const [active, setActive] = useState<ProductCategory>(
     () => categories.find((c) => c === requestedCategory) ?? categories[0],
   );
-  const filtered = products.filter((p) => p.category === active);
+  const [query, setQuery] = useState("");
+  // Searches within the active category tab, not across all of them — the
+  // tabs stay the primary way to narrow things down, search just refines
+  // whichever one is open, matching a name/series a visitor already has
+  // in mind rather than replacing the category browse entirely.
+  const normalizedQuery = query.trim().toLowerCase();
+  const filtered = useMemo(
+    () =>
+      products.filter((p) => {
+        if (p.category !== active) return false;
+        if (!normalizedQuery) return true;
+        return (
+          p.displayName.toLowerCase().includes(normalizedQuery) ||
+          p.romanized.toLowerCase().includes(normalizedQuery) ||
+          p.series.toLowerCase().includes(normalizedQuery)
+        );
+      }),
+    [products, active, normalizedQuery],
+  );
 
   return (
     <div>
+      <div className="mx-auto flex max-w-[1800px] flex-col gap-4 px-6 pt-8 pb-6 sm:flex-row sm:items-end sm:justify-between sm:px-10 sm:pt-10 lg:px-16">
+        <div>
+          <RevealText as="h1" className="text-2xl sm:text-3xl">
+            The Objects
+          </RevealText>
+          <Reveal delay={0.05}>
+            <p className="font-sans-ui mt-2 text-sm text-[var(--ink)]/60">
+              Made to order, browse by type below.
+            </p>
+          </Reveal>
+        </div>
+        <div className="relative w-full sm:w-72">
+          <SearchIcon className="pointer-events-none absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2 text-[var(--ink)]/40" />
+          <input
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder={`Search ${active}…`}
+            aria-label="Search products in this category"
+            className="font-sans-ui w-full rounded-full border border-[var(--line)] bg-[var(--paper)] py-2.5 pr-4 pl-10 text-sm text-[var(--ink)] outline-none transition focus:border-[var(--ink)]"
+          />
+        </div>
+      </div>
+
       <div className="font-sans-ui sticky top-[73px] z-10 overflow-x-auto border-y border-[var(--line)] bg-[var(--paper)]/95 backdrop-blur sm:top-[81px]">
         <div className="mx-auto flex max-w-[1800px] gap-1 px-6 sm:px-10 lg:px-16 py-1">
           {categories.map((category) => (
@@ -48,7 +100,9 @@ export function ProductCategoryBrowser({
       <div className="mx-auto max-w-[1800px] px-6 sm:px-10 lg:px-16 pt-12 pb-28">
         {filtered.length === 0 ? (
           <p className="py-16 text-center text-[var(--ink)]/50">
-            More pieces from this category are on their way.
+            {normalizedQuery
+              ? `No pieces in ${active} match "${query.trim()}".`
+              : "More pieces from this category are on their way."}
           </p>
         ) : (
           <Reveal
