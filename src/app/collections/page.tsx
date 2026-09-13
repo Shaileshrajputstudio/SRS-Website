@@ -9,7 +9,7 @@ import { Magnetic } from "@/components/motion/Magnetic";
 import { collections, coverImage } from "@/data/collections";
 
 export const metadata: Metadata = {
-  title: "Collections",
+  title: "Shop by Stories",
   description: "The six main stories of Shailesh Rajput Studio, presented as immersive chapters, not SKUs.",
 };
 

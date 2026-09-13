@@ -6,7 +6,7 @@ import { ProductCategoryBrowser } from "@/components/ProductCategoryBrowser";
 import { products, productCategories } from "@/data/products";
 
 export const metadata: Metadata = {
-  title: "Products",
+  title: "Shop by Series",
   description: "Browse Shailesh Rajput Studio's work by category, wall sconces, pendant lights, floor lamps, and more.",
 };
 
