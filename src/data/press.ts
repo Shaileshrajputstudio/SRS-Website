@@ -19,6 +19,11 @@ export type PressEntry = {
   // Overrides the generic placeholder thumbnail with one of the studio's
   // own real photos, when the piece a feature covers is known.
   image?: string;
+  // Additional photos for this exhibition's click-through gallery
+  // (ExhibitionCard). Optional — when omitted, the gallery falls back to
+  // just `image` as a single-photo set, and a placeholder entry with
+  // neither ends up with nothing to show, so its card isn't clickable.
+  images?: string[];
   // The publication's own real logo (downloaded from their live site) —
   // shown instead of `image` on the Press tab for credibility. Rendered
   // with object-contain on a white card, never stretched/recolored.

@@ -4,6 +4,7 @@ import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { ArrowIcon } from "@/components/ArrowIcon";
 import { PressTabs } from "@/components/PressTabs";
+import { ExhibitionCard } from "@/components/ExhibitionCard";
 import { Reveal } from "@/components/motion/Reveal";
 import { RevealText } from "@/components/motion/RevealText";
 import { pressEntries } from "@/data/press";
@@ -42,25 +43,13 @@ export default function PressPage() {
       <div className="mx-auto max-w-5xl px-6 pb-24">
         <PressTabs
           exhibitions={
-            <Reveal as="div" staggerChildren className="grid grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2">
+            <Reveal as="div" staggerChildren className="grid grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
               {exhibitionEntries.map((entry, i) => (
-                <div key={entry.title + i} className="group">
-                  <div className="mb-5 aspect-[4/5] overflow-hidden bg-[var(--paper-2)]">
-                    <Image
-                      src={entry.image ?? `/images/press/press-${(i % 3) + 1}.svg`}
-                      alt={entry.title}
-                      width={500}
-                      height={625}
-                      unoptimized
-                      className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                  <p className="font-sans-ui mb-1 text-xs tracking-[0.15em] text-[var(--ash)] uppercase">
-                    {entry.venue} · {entry.year} · {entry.status}
-                  </p>
-                  <h2 className="text-xl">{entry.title}</h2>
-                  <p className="mt-1 text-sm text-[var(--ink)]/60">{entry.description}</p>
-                </div>
+                <ExhibitionCard
+                  key={entry.title + i}
+                  entry={entry}
+                  thumbnailSrc={entry.image ?? `/images/press/press-${(i % 3) + 1}.svg`}
+                />
               ))}
             </Reveal>
           }
