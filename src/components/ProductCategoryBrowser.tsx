@@ -17,6 +17,14 @@ function SearchIcon({ className = "h-4 w-4" }: { className?: string }) {
   );
 }
 
+function CloseIcon({ className = "h-3.5 w-3.5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+      <path d="M6 6l8 8M14 6l-8 8" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 export function ProductCategoryBrowser({
   categories,
   products,
@@ -77,8 +85,24 @@ export function ProductCategoryBrowser({
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search all products…"
             aria-label="Search all products"
-            className="font-sans-ui w-full rounded-full border border-[var(--line)] bg-[var(--paper)] py-2.5 pr-4 pl-10 text-sm text-[var(--ink)] outline-none transition focus:border-[var(--ink)]"
+            className="font-sans-ui w-full rounded-full border border-[var(--line)] bg-[var(--paper)] py-2.5 pr-10 pl-10 text-sm text-[var(--ink)] outline-none transition focus:border-[var(--ink)]"
           />
+          {/* Own clear button, not the browser's native type="search" one
+              (hidden globally in globals.css) — that one renders as a
+              tiny, inconsistently-styled gray x with no hover affordance
+              and varies by browser. This one always shows once there's
+              something to clear, and gets the hand cursor + hover circle
+              every other icon button in this app gets. */}
+          {query && (
+            <button
+              type="button"
+              onClick={() => setQuery("")}
+              aria-label="Clear search"
+              className="absolute top-1/2 right-1.5 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full text-[var(--ink)]/50 transition hover:bg-[var(--ink)]/10 hover:text-[var(--ink)]"
+            >
+              <CloseIcon />
+            </button>
+          )}
         </div>
       </div>
 
@@ -121,7 +145,7 @@ export function ProductCategoryBrowser({
           >
             {filtered.map((product) => (
               <Link key={product.slug} href={`/products/${product.slug}`} className="group block">
-                <div className="relative aspect-[4/5] overflow-hidden bg-[var(--paper-2)]">
+                <div className="relative aspect-[3/4] overflow-hidden bg-[var(--paper-2)]">
                   <Image
                     src={product.images[0]}
                     alt={product.placeholder ? `${product.category} — coming soon` : product.romanized}

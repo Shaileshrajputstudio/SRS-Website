@@ -18,6 +18,16 @@ button:not(:disabled),
   display: none;
 }
 
+/* Chromium/Safari draw their own small gray "x" on a non-empty
+   type="search" input, styleable only via this non-standard pseudo
+   element (Firefox never renders one, so no conflict there) — hidden so
+   the product search's own bigger, consistently-styled clear button
+   (ProductCategoryBrowser.tsx) is the only one shown, everywhere. */
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
 /* A continuously scrolling strip (the homepage Featured Products marquee).
    The track renders its content twice back-to-back and animates exactly
    half its own width — since the two halves are identical, the loop point
