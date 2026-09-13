@@ -146,13 +146,13 @@ export default async function CollectionChapterPage({
         <section className="mx-auto max-w-[1800px] border-t border-[var(--line)] px-6 sm:px-10 lg:px-16 py-20">
           <Reveal>
             <p className="font-sans-ui mb-8 text-xs tracking-[0.2em] text-[var(--ash)] uppercase">
-              Pieces in This Collection
+              Products in This Collection
             </p>
           </Reveal>
           <Reveal as="div" staggerChildren className="grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
             {seriesProducts.map((product) => (
               <Link key={product.slug} href={`/products/${product.slug}`} className="group block">
-                <div className="relative aspect-[4/5] overflow-hidden bg-[var(--paper-2)]">
+                <div className="relative aspect-[3/4] overflow-hidden bg-[var(--paper-2)]">
                   <Image
                     src={product.images[0]}
                     alt={product.romanized}

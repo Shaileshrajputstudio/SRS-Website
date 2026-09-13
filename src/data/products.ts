@@ -21,8 +21,8 @@ export const productCategories = [
   "Ceiling Lights",
   "Table Lights",
   "Floor Lamps",
-  "Accent Furniture Pieces",
-  "Artisanal Pieces",
+  "Accent Furniture Products",
+  "Artisanal Products",
   "Mirror",
 ] as const;
 
@@ -61,7 +61,7 @@ function placeholderProduct(category: ProductCategory, index: number): Product {
     category,
     placeholder: true,
     about: [
-      `A piece from the studio's ${category} range. Photography and the full story for this piece are being prepared.`,
+      `A product from the studio's ${category} range. Photography and the full story for this product are being prepared.`,
     ],
     closing: [],
     details: {
@@ -1031,7 +1031,7 @@ const accentFurniturePieces: Product[] = [
     displayName: "AN:TARA Bench",
     romanized: "AN:TARA Bench",
     series: "Aranya",
-    category: "Accent Furniture Pieces",
+    category: "Accent Furniture Products",
     placeholder: false,
     about: [
       "Handcrafted using Aluminium and Compound Epoxy Texture.",
@@ -1057,7 +1057,7 @@ const accentFurniturePieces: Product[] = [
     displayName: "ANU:BHUTI Console",
     romanized: "ANU:BHUTI Console",
     series: "Bhumi",
-    category: "Accent Furniture Pieces",
+    category: "Accent Furniture Products",
     placeholder: false,
     about: [
       "Handcrafted using Aluminium and Compound Epoxy Texture.",
@@ -1083,7 +1083,7 @@ const accentFurniturePieces: Product[] = [
     displayName: "PRA:VAH",
     romanized: "PRA:VAH",
     series: "Collectables",
-    category: "Accent Furniture Pieces",
+    category: "Accent Furniture Products",
     placeholder: false,
     about: [
       "Handcrafted using Brass & Glass.",
@@ -1108,7 +1108,7 @@ const accentFurniturePieces: Product[] = [
     displayName: "REVA Bench",
     romanized: "REVA Bench",
     series: "—",
-    category: "Accent Furniture Pieces",
+    category: "Accent Furniture Products",
     placeholder: false,
     about: [
       "Handcrafted using Brass.",
@@ -1130,7 +1130,7 @@ const accentFurniturePieces: Product[] = [
     displayName: "SWA:TANTRA Console",
     romanized: "SWA:TANTRA Console",
     series: "Sama:Yantar",
-    category: "Accent Furniture Pieces",
+    category: "Accent Furniture Products",
     placeholder: false,
     about: [
       "Handcrafted using Stainless Steel.",
@@ -1155,7 +1155,7 @@ const accentFurniturePieces: Product[] = [
     displayName: "TI:VRA Bench (set of 2)",
     romanized: "TI:VRA Bench (set of 2)",
     series: "Aranya",
-    category: "Accent Furniture Pieces",
+    category: "Accent Furniture Products",
     placeholder: false,
     about: [
       "Handcrafted using Aluminium and Compound Epoxy Texture.",
@@ -1180,7 +1180,7 @@ const accentFurniturePieces: Product[] = [
     displayName: "VRA:TA Console",
     romanized: "VRA:TA Console",
     series: "Aranya",
-    category: "Accent Furniture Pieces",
+    category: "Accent Furniture Products",
     placeholder: false,
     about: [
       "Handcrafted using Aluminium and Compound Epoxy Texture.",
@@ -1205,9 +1205,9 @@ const accentFurniturePieces: Product[] = [
 ];
 
 // Real photography imported from /Users/pavantj/Downloads/SRS IMAGE for
-// Mirror and Artisanal Pieces. Names are the studio's own (Eraya is a
+// Mirror and Artisanal Products. Names are the studio's own (Eraya is a
 // five-piece mirror family, numbered by the studio's own folders; the
-// Artisanal Pieces carry their own given names). No spec sheet or story
+// Artisanal Products carry their own given names). No spec sheet or story
 // lineage was supplied for these, so "about" copy stays to what's visible
 // in the photos and every structured spec is "—" pending real data.
 const mirrors: Product[] = [
@@ -2287,7 +2287,7 @@ const artisanalPieces: Product[] = [
     displayName: "CHANDRIKA",
     romanized: "CHANDRIKA",
     series: "—",
-    category: "Artisanal Pieces",
+    category: "Artisanal Products",
     placeholder: false,
     about: [
       "A tall sculptural floor lamp: a swan-necked, luminous form rising from a cascading base shingled in hand-cut bronze scales, lit from within.",
@@ -2316,7 +2316,7 @@ const artisanalPieces: Product[] = [
     displayName: "SAANJH",
     romanized: "SAANJH",
     series: "—",
-    category: "Artisanal Pieces",
+    category: "Artisanal Products",
     placeholder: false,
     about: [
       "A hanging lamp with a faceted, mosaic-glass body lit softly from within, suspended from a bronze mount cast to look like a bare branch with a bird's head.",
@@ -2340,7 +2340,7 @@ const artisanalPieces: Product[] = [
     displayName: "SHATARCHI",
     romanized: "SHATARCHI",
     series: "—",
-    category: "Artisanal Pieces",
+    category: "Artisanal Products",
     placeholder: false,
     about: [
       "A floor lamp cascading in hundreds of hand-set faceted glass scales over a bronze frame, crowned with a bronze crest, the studio's peacock silhouette rendered in light.",
@@ -2466,7 +2466,7 @@ export const products: Product[] = [
   },
   // Real photography imported from /Users/pavantj/Downloads/SRS IMAGE for
   // Pendant Lights, Ceiling Lights, Table Lights, Floor Lamps, and Accent
-  // Furniture Pieces. Names are real (the studio's own folder names); "about"
+  // Furniture Products. Names are real (the studio's own folder names); "about"
   // copy is intentionally minimal — no material/story details were supplied,
   // so nothing beyond what's visible in the photos is claimed.
   ...pendantLights,

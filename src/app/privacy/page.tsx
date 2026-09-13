@@ -19,7 +19,7 @@ const sections = [
   {
     heading: "How We Use It",
     body: [
-      "Your details are used solely to respond to your enquiry by email, and to continue the conversation about a piece, collection, or collaboration.",
+      "Your details are used solely to respond to your enquiry by email, and to continue the conversation about a product, collection, or collaboration.",
       "We do not sell, rent, or share your information with third parties for marketing purposes.",
     ],
   },

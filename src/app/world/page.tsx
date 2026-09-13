@@ -173,7 +173,7 @@ export default function WorldPage() {
             <div>
               <Reveal>
                 <p className="mb-6 text-lg leading-relaxed sm:text-xl">
-                  As observers, seekers, and makers, Shailesh and Manasi
+                  As observers, seekers, and makers, Shailesh and Mansi
                   approach design as a process of discovery rather than
                   control. Questions arrive before answers. Intuition
                   arrives before logic.
@@ -199,7 +199,7 @@ export default function WorldPage() {
               </Reveal>
               <Reveal delay={0.15}>
                 <p className="mb-6 text-lg leading-relaxed text-white/80 sm:text-xl">
-                  For Shailesh and Manasi, design is not simply about
+                  For Shailesh and Mansi, design is not simply about
                   creating products. It is a way of observing, questioning,
                   and understanding the world. A way of translating moments
                   of curiosity into something tangible, something that can
@@ -218,7 +218,7 @@ export default function WorldPage() {
               <Reveal variant="image" className="max-w-md overflow-hidden">
                 <Image
                   src="/images/founder-portrait.png"
-                  alt="Shailesh and Manasi — Founders, Shailesh Rajput Studio"
+                  alt="Shailesh and Mansi — Founders, Shailesh Rajput Studio"
                   width={1195}
                   height={1254}
                   unoptimized

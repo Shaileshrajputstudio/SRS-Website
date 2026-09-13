@@ -28,7 +28,7 @@ const sections = [
   {
     heading: "Enquiries Are Not a Purchase",
     body: [
-      "Submitting a message through Converse or Contact does not create a binding order or agreement. Every piece is made to order, and prices, timelines, and the terms of sale are agreed directly between you and the studio, outside this website.",
+      "Submitting a message through Converse or Contact does not create a binding order or agreement. Every product is made to order, and prices, timelines, and the terms of sale are agreed directly between you and the studio, outside this website.",
     ],
   },
   {

@@ -85,22 +85,25 @@ export function ProductCategoryBrowser({
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search all products…"
             aria-label="Search all products"
-            className="font-sans-ui w-full rounded-full border border-[var(--line)] bg-[var(--paper)] py-2.5 pr-10 pl-10 text-sm text-[var(--ink)] outline-none transition focus:border-[var(--ink)]"
+            className="font-sans-ui w-full rounded-full border border-[var(--line)] bg-[var(--paper)] py-3 pr-12 pl-10 text-sm text-[var(--ink)] outline-none transition focus:border-[var(--ink)]"
           />
           {/* Own clear button, not the browser's native type="search" one
               (hidden globally in globals.css) — that one renders as a
               tiny, inconsistently-styled gray x with no hover affordance
               and varies by browser. This one always shows once there's
               something to clear, and gets the hand cursor + hover circle
-              every other icon button in this app gets. */}
+              every other icon button in this app gets. Sized and offset
+              generously (not flush with the edge) so its hover circle
+              sits clear of the pill's own rounded corner instead of
+              crowding it. */}
           {query && (
             <button
               type="button"
               onClick={() => setQuery("")}
               aria-label="Clear search"
-              className="absolute top-1/2 right-1.5 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full text-[var(--ink)]/50 transition hover:bg-[var(--ink)]/10 hover:text-[var(--ink)]"
+              className="absolute top-1/2 right-2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full text-[var(--ink)]/50 transition hover:bg-[var(--ink)]/10 hover:text-[var(--ink)]"
             >
-              <CloseIcon />
+              <CloseIcon className="h-4 w-4" />
             </button>
           )}
         </div>
@@ -132,7 +135,7 @@ export function ProductCategoryBrowser({
           <p className="py-16 text-center text-[var(--ink)]/50">
             {normalizedQuery
               ? `No products match "${query.trim()}".`
-              : "More pieces from this category are on their way."}
+              : "More products from this category are on their way."}
           </p>
         ) : (
           <Reveal

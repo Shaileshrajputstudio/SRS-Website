@@ -47,13 +47,13 @@ export function ElementBrowser({
 
         {products.length === 0 ? (
           <p className="py-16 text-center text-[var(--ink)]/50">
-            More pieces from {activeElement.title} are on their way.
+            More products from {activeElement.title} are on their way.
           </p>
         ) : (
           <div className="grid grid-cols-1 gap-x-6 gap-y-12 pb-20 sm:grid-cols-2 lg:grid-cols-4">
             {products.map((product) => (
               <Link key={product.slug} href={`/products/${product.slug}`} className="group block">
-                <div className="relative aspect-[4/5] overflow-hidden bg-[var(--paper-2)]">
+                <div className="relative aspect-[3/4] overflow-hidden bg-[var(--paper-2)]">
                   <Image
                     src={product.images[0]}
                     alt={product.romanized}

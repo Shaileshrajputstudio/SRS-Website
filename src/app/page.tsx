@@ -68,7 +68,7 @@ export default function ArrivalPage() {
         </Reveal>
         <Reveal delay={0.1}>
           <p className="mb-5 leading-relaxed text-[var(--ink)]/70">
-            Shailesh and Manasi approach design as a process of discovery
+            Shailesh and Mansi approach design as a process of discovery
             rather than control. Questions arrive before answers. Intuition
             arrives before logic, through sketching, experimentation, and
             making, their observations take shape as objects that invite
