@@ -165,11 +165,26 @@ export function ExhibitionCard({
             </span>
           )}
         </div>
-        <p className="font-sans-ui mb-1 text-xs tracking-[0.15em] text-[var(--ash)] uppercase">
-          {entry.venue} · {entry.year} · {entry.status}
-        </p>
-        <h2 className="text-xl">{entry.title}</h2>
-        <p className="mt-1 text-sm text-[var(--ink)]/60">{entry.description}</p>
+        <div className="mb-3 space-y-1">
+          <div className="flex flex-wrap items-center gap-2">
+            <span
+              className={`font-sans-ui inline-flex shrink-0 items-center rounded-full px-2 py-0.5 text-[9px] font-medium tracking-wide text-white uppercase ${
+                entry.status === "Upcoming" ? "bg-[var(--accent)]" : "bg-[var(--ink)]/50"
+              }`}
+            >
+              {entry.status}
+            </span>
+            <p className="font-sans-ui text-[11px] tracking-[0.03em] text-[var(--ink)]/45">
+              {entry.venue}
+              {entry.city && `, ${entry.city}`}
+            </p>
+          </div>
+          <p className="font-sans-ui text-[11px] tracking-[0.03em] text-[var(--ink)]/45">
+            {entry.year}
+          </p>
+        </div>
+        <h2 className="text-2xl leading-snug">{entry.title}</h2>
+        <p className="mt-1.5 text-sm text-[var(--ink)]/60">{entry.description}</p>
       </div>
 
       {open && (

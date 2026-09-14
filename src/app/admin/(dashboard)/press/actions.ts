@@ -27,6 +27,7 @@ export async function savePress(
   const payload = {
     title,
     venue: (formData.get("venue") as string)?.trim() ?? "",
+    city: (formData.get("city") as string)?.trim() ?? "",
     year: (formData.get("year") as string)?.trim() ?? "",
     status: formData.get("status") as string,
     category,

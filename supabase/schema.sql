@@ -227,4 +227,9 @@ create policy "Public read access" on products for select using (true);
 create policy "Public read access" on collections for select using (true);
 create policy "Public read access" on elements for select using (true);
 create policy "Public read access" on films for select using (true);
+
+-- ---------- Exhibition city ----------
+-- Exhibition cards show venue + city + year; press (publication) entries
+-- don't use this field.
+alter table press_entries add column if not exists city text not null default '';
 create policy "Public read access" on press_entries for select using (true);

@@ -230,46 +230,48 @@ export default function WorldPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1800px] px-6 sm:px-10 lg:px-16 py-20 sm:py-28">
-        <p className="font-sans-ui mb-14 flex items-center justify-center gap-2.5 text-center text-xs tracking-[0.2em] text-[var(--ash)] uppercase">
-          <Coil className="h-4 w-4 text-[var(--accent)]" />
+      <section className="relative mx-auto max-w-5xl overflow-hidden px-6 py-20 sm:py-32">
+        <Coil className="pointer-events-none absolute -top-20 -right-20 h-[420px] w-[420px] text-[var(--ink)]/[0.04] sm:h-[560px] sm:w-[560px]" />
+        <p className="font-sans-ui relative mb-16 text-xs tracking-[0.2em] text-[var(--ash)] uppercase sm:mb-24">
           Our Belief System
         </p>
-        <Reveal as="div" staggerChildren className="grid grid-cols-1 sm:grid-cols-3">
-          {belief.map((b, i) => (
+        <Reveal as="div" staggerChildren className="relative flex flex-col gap-16 sm:gap-24">
+          {belief.map((b) => (
             <div
               key={b.name}
-              className={`relative px-0 pt-8 first:pt-0 sm:px-10 sm:pt-0 sm:first:pl-0 ${
-                i > 0 ? "border-t border-[var(--line)] sm:border-t-0 sm:border-l" : ""
-              }`}
+              className="grid grid-cols-1 gap-6 sm:grid-cols-[minmax(0,220px)_1fr] sm:gap-16"
             >
-              <b.icon className="mb-6 h-11 w-11 text-[var(--accent)] sm:h-12 sm:w-12" />
-              <h2 className="mb-4 text-sm tracking-[0.15em] text-[var(--ash)] uppercase">
-                {b.name}
-              </h2>
-              <p className="mb-4 text-xl leading-snug">{b.statement}</p>
-              <p className="text-sm leading-relaxed text-[var(--ink)]/70">{b.supporting}</p>
+              <div className="flex items-center gap-3 sm:flex-col sm:items-start sm:gap-5">
+                <b.icon className="h-9 w-9 text-[var(--accent)] sm:h-11 sm:w-11" />
+                <h2 className="text-sm tracking-[0.15em] text-[var(--ash)] uppercase">
+                  {b.name}
+                </h2>
+              </div>
+              <div>
+                <p className="mb-5 text-[24px] leading-snug">{b.statement}</p>
+                <p className="max-w-xl text-sm leading-relaxed text-[var(--ink)]/70 sm:text-base">
+                  {b.supporting}
+                </p>
+              </div>
             </div>
           ))}
         </Reveal>
       </section>
 
-      <section className="mx-auto max-w-[1800px] px-6 sm:px-10 lg:px-16 py-16 sm:py-24">
-        <p className="font-sans-ui mb-14 flex items-center gap-2.5 text-xs tracking-[0.2em] text-[var(--ash)] uppercase">
-          <Coil className="h-4 w-4 text-[var(--accent)]" />
+      <div className="mx-auto max-w-5xl px-6">
+        <div className="border-t border-[#D6CEB5]" />
+      </div>
+
+      <section className="mx-auto max-w-5xl px-6 py-16 sm:py-24">
+        <p className="font-sans-ui mb-14 text-xs tracking-[0.2em] text-[var(--ash)] uppercase">
           Core Values
         </p>
-        <Reveal as="div" staggerChildren className="grid grid-cols-1 gap-x-10 gap-y-0 sm:grid-cols-2 lg:grid-cols-4">
+        <Reveal as="div" staggerChildren className="grid grid-cols-1 gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
           {values.map((v) => (
-            <div
-              key={v.name}
-              className="group flex gap-5 border-t border-[var(--line)] py-8 first:border-t sm:py-10"
-            >
-              <v.icon className="mt-1 h-8 w-8 shrink-0 text-[var(--ink)]/30 transition-colors duration-300 group-hover:text-[var(--accent)]" />
-              <div>
-                <h3 className="mb-2 text-xl">{v.name}</h3>
-                <p className="text-[var(--ink)]/70 leading-relaxed">{v.description}</p>
-              </div>
+            <div key={v.name}>
+              <v.icon className="mb-5 h-8 w-8 text-[var(--accent)]" />
+              <h3 className="mb-2 text-xl">{v.name}</h3>
+              <p className="text-[var(--ink)]/70 leading-relaxed">{v.description}</p>
             </div>
           ))}
         </Reveal>

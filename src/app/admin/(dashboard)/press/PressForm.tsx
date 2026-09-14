@@ -15,6 +15,7 @@ export type PressRecord = {
   id: string;
   title: string;
   venue: string;
+  city: string;
   year: string;
   status: "Upcoming" | "Past";
   category: PressCategory;
@@ -63,16 +64,17 @@ export function PressForm({
         {category === "Press" && <input type="hidden" name="logoUrl" value={logoUrl} />}
 
         <Card className="space-y-4 p-6">
-          <div>
-            <Label htmlFor="title">Title</Label>
-            <Input id="title" name="title" defaultValue={entry?.title} required />
-          </div>
-
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className={`grid grid-cols-1 gap-4 ${category === "Exhibition" ? "sm:grid-cols-3" : "sm:grid-cols-2"}`}>
             <div>
               <Label htmlFor="venue">Venue / publication</Label>
               <Input id="venue" name="venue" defaultValue={entry?.venue} />
             </div>
+            {category === "Exhibition" && (
+              <div>
+                <Label htmlFor="city">City</Label>
+                <Input id="city" name="city" defaultValue={entry?.city} />
+              </div>
+            )}
             <div>
               <Label htmlFor="year">Year</Label>
               <Input id="year" name="year" defaultValue={entry?.year} />
@@ -87,15 +89,20 @@ export function PressForm({
             </Select>
           </div>
 
-          <label className="flex items-center gap-2 text-sm text-gray-700">
-            <input type="checkbox" name="placeholder" defaultChecked={entry?.placeholder} className="h-4 w-4 rounded border-gray-300 text-gray-900 focus:ring-gray-400" />
-            Placeholder (details/venue not confirmed yet)
-          </label>
+          <div>
+            <Label htmlFor="title">Title</Label>
+            <Input id="title" name="title" defaultValue={entry?.title} required />
+          </div>
 
           <div>
             <Label htmlFor="description">Description</Label>
             <Textarea id="description" name="description" rows={3} defaultValue={entry?.description} />
           </div>
+
+          <label className="flex items-center gap-2 text-sm text-gray-700">
+            <input type="checkbox" name="placeholder" defaultChecked={entry?.placeholder} className="h-4 w-4 rounded border-gray-300 text-gray-900 focus:ring-gray-400" />
+            Placeholder (details/venue not confirmed yet)
+          </label>
 
           {category === "Press" && (
             <div>

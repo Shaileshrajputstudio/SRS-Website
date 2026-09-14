@@ -6,6 +6,7 @@ import { supabasePublic } from "@/lib/supabasePublic";
 export type PressEntry = {
   title: string;
   venue: string;
+  city: string;
   year: string;
   status: "Upcoming" | "Past";
   category: "Exhibition" | "Press";
@@ -20,6 +21,7 @@ export type PressEntry = {
 type PressRow = {
   title: string;
   venue: string;
+  city: string;
   year: string;
   status: PressEntry["status"];
   category: PressEntry["category"];
@@ -35,6 +37,7 @@ function mapPressEntry(row: PressRow): PressEntry {
   return {
     title: row.title,
     venue: row.venue,
+    city: row.city,
     year: row.year,
     status: row.status,
     category: row.category,
