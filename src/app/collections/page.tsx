@@ -6,14 +6,16 @@ import { Footer } from "@/components/Footer";
 import { Reveal } from "@/components/motion/Reveal";
 import { RevealText } from "@/components/motion/RevealText";
 import { Magnetic } from "@/components/motion/Magnetic";
-import { collections, coverImage } from "@/data/collections";
+import { getAllCollections, coverImage } from "@/data/collections";
 
 export const metadata: Metadata = {
   title: "Shop by Stories",
-  description: "The six main stories of Shailesh Rajput Studio, presented as immersive chapters, not SKUs.",
+  description: "The main stories of Shailesh Rajput Studio, presented as immersive chapters, not SKUs.",
 };
 
-export default function CollectionsPage() {
+export default async function CollectionsPage() {
+  const collections = await getAllCollections();
+
   return (
     <>
       <Nav />
@@ -21,7 +23,7 @@ export default function CollectionsPage() {
       <section className="mx-auto max-w-3xl px-6 pt-20 pb-16 text-center sm:pt-28">
         <Reveal>
           <p className="font-sans-ui mb-4 flex items-center justify-center gap-2 text-xs tracking-[0.2em] text-[var(--ash)] uppercase">
-            Collections
+            The Stories
           </p>
         </Reveal>
         <RevealText as="h1" className="mb-6 text-4xl leading-tight sm:text-5xl">

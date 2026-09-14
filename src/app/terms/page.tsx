@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { studio } from "@/lib/studio";
+import { getStudioContactInfo } from "@/data/studioInfo";
 
 export const metadata: Metadata = {
   title: "Terms of Use",
@@ -69,7 +70,9 @@ const sections = [
   },
 ];
 
-export default function TermsPage() {
+export default async function TermsPage() {
+  const studioInfo = await getStudioContactInfo();
+
   return (
     <>
       <Nav />
@@ -104,8 +107,8 @@ export default function TermsPage() {
           </h2>
           <p className="leading-relaxed text-[var(--ink)]/80">
             Questions about these terms can be sent to{" "}
-            <a href={`mailto:${studio.email}`} className="text-[var(--ink)] underline underline-offset-2 hover:text-[var(--accent)]">
-              {studio.email}
+            <a href={`mailto:${studioInfo.email}`} className="text-[var(--ink)] underline underline-offset-2 hover:text-[var(--accent)]">
+              {studioInfo.email}
             </a>
             .
           </p>

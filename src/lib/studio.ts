@@ -1,17 +1,7 @@
+// Brand identity — name and domain — stays fixed in code rather than the
+// CMS; unlike phone/email/address/socials (see src/data/studioInfo.ts),
+// these aren't really "contact details" the studio would edit.
 export const studio = {
   name: "Shailesh Rajput Studio",
   website: "https://shaileshrajputstudio.com",
-  phone: "+919967788543",
-  whatsapp: "919967788543",
-  email: "shaileshrajputstudio@gmail.com",
-  instagram: "https://www.instagram.com/shaileshrajputstudio/",
-  instagramDm: "https://ig.me/m/shaileshrajputstudio",
-  facebook: "https://www.facebook.com/ShaileshRajputStudio",
-  address: {
-    lines: [
-      "Studio No. 19, Ground Floor, 11 Cama Industrial Estate, Opposite Post Office,",
-      "Sitaram Jadhav Marg, Sun Mill Compound, Lower Parel, Mumbai - 400013",
-    ],
-    full: "Studio No. 19, Ground Floor, 11 Cama Industrial Estate, Opposite Post Office, Sitaram Jadhav Marg, Sun Mill Compound, Lower Parel, Mumbai - 400013",
-  },
 };

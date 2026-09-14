@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { studio } from "@/lib/studio";
+import { useStudioInfo } from "@/components/StudioInfoContext";
 
 export type AcquirePieceOption = {
   slug: string;
@@ -30,6 +30,7 @@ export function AcquireForm({
   const [intent, setIntent] = useState(intents[0]);
   const [geography, setGeography] = useState("");
   const [message, setMessage] = useState(initialMessage ?? "");
+  const studioInfo = useStudioInfo();
 
   function buildMessage() {
     const pieceLabel =
@@ -51,7 +52,7 @@ export function AcquireForm({
   function handleSubmit() {
     const subject = encodeURIComponent("Enquiry — Shailesh Rajput Studio");
     const body = encodeURIComponent(buildMessage());
-    window.location.href = `mailto:${studio.email}?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:${studioInfo.email}?subject=${subject}&body=${body}`;
   }
 
   return (

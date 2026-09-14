@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
-import { studio } from "@/lib/studio";
+import { getStudioContactInfo } from "@/data/studioInfo";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description: "How Shailesh Rajput Studio collects, uses, and protects your information.",
 };
 
-const sections = [
+function buildSections(email: string) {
+  return [
   {
     heading: "Information We Collect",
     body: [
@@ -45,7 +46,7 @@ const sections = [
   {
     heading: "Your Rights",
     body: [
-      `You may ask us at any time what information we hold about you, or request that we delete it, by writing to ${studio.email}. We will respond within a reasonable time.`,
+      `You may ask us at any time what information we hold about you, or request that we delete it, by writing to ${email}. We will respond within a reasonable time.`,
     ],
   },
   {
@@ -54,9 +55,13 @@ const sections = [
       "If our practices change, we'll update this page. The date below reflects the last revision.",
     ],
   },
-];
+  ];
+}
 
-export default function PrivacyPage() {
+export default async function PrivacyPage() {
+  const studioInfo = await getStudioContactInfo();
+  const sections = buildSections(studioInfo.email);
+
   return (
     <>
       <Nav />
@@ -91,8 +96,8 @@ export default function PrivacyPage() {
           </h2>
           <p className="leading-relaxed text-[var(--ink)]/80">
             Questions about this policy can be sent to{" "}
-            <a href={`mailto:${studio.email}`} className="text-[var(--ink)] underline underline-offset-2 hover:text-[var(--accent)]">
-              {studio.email}
+            <a href={`mailto:${studioInfo.email}`} className="text-[var(--ink)] underline underline-offset-2 hover:text-[var(--accent)]">
+              {studioInfo.email}
             </a>
             .
           </p>

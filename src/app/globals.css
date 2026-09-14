@@ -94,6 +94,11 @@ body {
   font-family: var(--font-duru), ui-sans-serif, system-ui, sans-serif;
 }
 
+/* The admin panel's own UI font (Inter) — see src/app/admin/layout.tsx. */
+.font-admin {
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
 /* A gentler alternative to Tailwind's default animate-ping, which resets
    instantly (scale 2/opacity 0 -> scale 1/opacity 1) at the top of every
    loop — visible as an abrupt snap. This holds at opacity 0 for the back

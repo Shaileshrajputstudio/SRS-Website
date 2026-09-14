@@ -7,17 +7,18 @@ import { PressTabs } from "@/components/PressTabs";
 import { ExhibitionCard } from "@/components/ExhibitionCard";
 import { Reveal } from "@/components/motion/Reveal";
 import { RevealText } from "@/components/motion/RevealText";
-import { pressEntries } from "@/data/press";
+import { getAllPressEntries } from "@/data/press";
 
 export const metadata: Metadata = {
   title: "Exhibitions & Press",
   description: "Shailesh Rajput Studio's exhibitions, and its work as featured in design publications.",
 };
 
-const exhibitionEntries = pressEntries.filter((entry) => entry.category === "Exhibition");
-const pressOnlyEntries = pressEntries.filter((entry) => entry.category === "Press");
+export default async function PressPage() {
+  const pressEntries = await getAllPressEntries();
+  const exhibitionEntries = pressEntries.filter((entry) => entry.category === "Exhibition");
+  const pressOnlyEntries = pressEntries.filter((entry) => entry.category === "Press");
 
-export default function PressPage() {
   return (
     <>
       <Nav />

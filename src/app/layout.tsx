@@ -5,6 +5,8 @@ import { FloatingContact } from "@/components/FloatingContact";
 import { SingleVideoPlayback } from "@/components/SingleVideoPlayback";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { RouteTransition } from "@/components/motion/RouteTransition";
+import { StudioInfoProvider } from "@/components/StudioInfoContext";
+import { getStudioContactInfo } from "@/data/studioInfo";
 import "./globals.css";
 
 const annapurna = localFont({
@@ -48,18 +50,22 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const studioInfo = await getStudioContactInfo();
+
   return (
     <html lang="en" className={`${annapurna.variable} ${duruSans.variable}`}>
       <body className="antialiased">
-        <SmoothScroll />
-        <RouteTransition>{children}</RouteTransition>
-        <FloatingContact />
-        <SingleVideoPlayback />
+        <StudioInfoProvider value={studioInfo}>
+          <SmoothScroll />
+          <RouteTransition>{children}</RouteTransition>
+          <FloatingContact />
+          <SingleVideoPlayback />
+        </StudioInfoProvider>
       </body>
     </html>
   );

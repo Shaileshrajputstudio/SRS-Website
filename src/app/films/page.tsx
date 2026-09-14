@@ -9,24 +9,28 @@ import { Reveal } from "@/components/motion/Reveal";
 import { RevealText } from "@/components/motion/RevealText";
 import { getPanchBhuta, getElements, getStoryCollections, filmPoster } from "@/data/collections";
 
-const panchBhuta = getPanchBhuta();
-
-// Only list a category here if it has at least one real, playable film —
-// several of the six elements currently have nothing but placeholder
-// entries (no videoSrc), and showing an empty-feeling group of "coming
-// soon" posters isn't what an archive page should lead with.
-const filmGroups = [
-  { slug: panchBhuta.slug, title: panchBhuta.title, href: "/collections/panch-bhuta", films: panchBhuta.films },
-  ...getElements().map((el) => ({ slug: el.slug, title: el.title, href: "/collections/panch-bhuta", films: el.films })),
-  ...getStoryCollections().map((c) => ({ slug: c.slug, title: c.title, href: `/collections/${c.slug}`, films: c.films })),
-].filter((g) => g.films.some((film) => film.videoSrc));
-
 export const metadata: Metadata = {
   title: "Films",
   description: "The storytelling archive, every film made for Shailesh Rajput Studio, in one place.",
 };
 
-export default function FilmsPage() {
+export default async function FilmsPage() {
+  const [panchBhuta, elements, storyCollections] = await Promise.all([
+    getPanchBhuta(),
+    getElements(),
+    getStoryCollections(),
+  ]);
+
+  // Only list a category here if it has at least one real, playable film —
+  // several of the six elements currently have nothing but placeholder
+  // entries (no videoSrc), and showing an empty-feeling group of "coming
+  // soon" posters isn't what an archive page should lead with.
+  const filmGroups = [
+    { slug: panchBhuta.slug, title: panchBhuta.title, href: "/collections/panch-bhuta", films: panchBhuta.films },
+    ...elements.map((el) => ({ slug: el.slug, title: el.title, href: "/collections/panch-bhuta", films: el.films })),
+    ...storyCollections.map((c) => ({ slug: c.slug, title: c.title, href: `/collections/${c.slug}`, films: c.films })),
+  ].filter((g) => g.films.some((film) => film.videoSrc));
+
   return (
     <>
       <Nav />

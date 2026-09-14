@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { studio } from "@/lib/studio";
+import { getStudioContactInfo } from "@/data/studioInfo";
 import {
   PhoneIcon,
   WhatsAppIcon,
@@ -22,7 +23,9 @@ const linkUnderline =
 const nestedLinkUnderline =
   "underline decoration-transparent underline-offset-4 transition-colors duration-300 group-hover:decoration-current";
 
-export function Footer() {
+export async function Footer() {
+  const studioInfo = await getStudioContactInfo();
+
   return (
     <footer className="bg-[var(--footer-bg)]">
       <div className="mx-auto max-w-[1800px] px-6 sm:px-10 lg:px-16 pt-[104px] pb-[80px]">
@@ -59,14 +62,14 @@ export function Footer() {
             <p className="mb-3 tracking-[0.15em] text-[var(--ash)] uppercase">Contact</p>
             <ul className="mb-8 space-y-2 text-[var(--ink)]/70">
               <li>
-                <a href={`tel:${studio.phone}`} className="group flex items-center gap-2 hover:text-[var(--ink)]">
+                <a href={`tel:${studioInfo.phone}`} className="group flex items-center gap-2 hover:text-[var(--ink)]">
                   <PhoneIcon className="h-4 w-4 shrink-0" />
                   <span className={nestedLinkUnderline}>Call</span>
                 </a>
               </li>
               <li>
                 <a
-                  href={`https://wa.me/${studio.whatsapp}`}
+                  href={`https://wa.me/${studioInfo.whatsapp}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group flex items-center gap-2 hover:text-[var(--ink)]"
@@ -76,7 +79,7 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <a href={`mailto:${studio.email}`} className="group flex items-center gap-2 hover:text-[var(--ink)]">
+                <a href={`mailto:${studioInfo.email}`} className="group flex items-center gap-2 hover:text-[var(--ink)]">
                   <EmailIcon className="h-4 w-4 shrink-0" />
                   <span className={nestedLinkUnderline}>Email</span>
                 </a>
@@ -86,7 +89,7 @@ export function Footer() {
             <p className="mb-3 tracking-[0.15em] text-[var(--ash)] uppercase">Follow</p>
             <div className="flex items-center gap-3">
               <a
-                href={studio.instagram}
+                href={studioInfo.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Follow on Instagram"
@@ -95,7 +98,7 @@ export function Footer() {
                 <InstagramIconFilled className="h-9 w-9" />
               </a>
               <a
-                href={studio.facebook}
+                href={studioInfo.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Follow on Facebook"

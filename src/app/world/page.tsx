@@ -19,7 +19,7 @@ import {
 } from "@/components/WorldIcons";
 
 export const metadata: Metadata = {
-  title: "The World",
+  title: "The Studio",
   description:
     "The studio story, the founder story, the philosophy and the values of Shailesh Rajput Studio.",
 };
@@ -91,7 +91,7 @@ export default function WorldPage() {
       <section className="mx-auto max-w-3xl px-6 pt-20 pb-16 text-center sm:pt-28">
         <Reveal>
           <p className="font-sans-ui mb-4 flex items-center justify-center gap-2 text-xs tracking-[0.2em] text-[var(--ash)] uppercase">
-            The World
+            The Studio
           </p>
         </Reveal>
         <RevealText as="h1" className="text-4xl leading-tight sm:text-5xl">

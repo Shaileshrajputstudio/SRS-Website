@@ -11,44 +11,43 @@ import { StoriesFan } from "@/components/StoriesFan";
 import { Reveal } from "@/components/motion/Reveal";
 import { RevealText } from "@/components/motion/RevealText";
 import { Magnetic } from "@/components/motion/Magnetic";
-import { collections, coverImage } from "@/data/collections";
+import { getAllCollections, coverImage } from "@/data/collections";
 import { getProductBySlug } from "@/data/products";
-import { pressEntries } from "@/data/press";
+import { getAllPressEntries } from "@/data/press";
+import { getHomePageContent } from "@/data/homePage";
 
-// A curated set of real, photographed pieces spanning the catalogue's
-// breadth — the homepage's entry point into the full product range.
-const featuredSlugs = [
-  "trivik",
-  "sambhu-textured",
-  "swarnita",
-  "bodhi-deep-samuha",
-  "aatrey-flower",
-  "manas",
-  "pravala",
-  "ant-light-bada",
-  "eraya-iv",
-  "dhaarana",
-];
-const featuredProducts = featuredSlugs.map((slug) => getProductBySlug(slug)!).filter(Boolean);
+export default async function ArrivalPage() {
+  const [homePageContent, collections, pressEntries] = await Promise.all([
+    getHomePageContent(),
+    getAllCollections(),
+    getAllPressEntries(),
+  ]);
+  const featuredProductsRaw = await Promise.all(
+    homePageContent.featuredProductSlugs.map((slug) => getProductBySlug(slug)),
+  );
+  const featuredProducts = featuredProductsRaw.filter((p) => p !== undefined);
 
-// StoriesFan is a Client Component, so its props must be plain, serializable
-// data — resolve each collection's cover image here on the server first.
-const storyTiles = collections.map((c) => ({
-  slug: c.slug,
-  title: c.title,
-  sanskritName: c.sanskritName,
-  myth: c.myth,
-  elementsCount: c.elements?.length,
-  image: coverImage(c),
-}));
+  // StoriesFan is a Client Component, so its props must be plain,
+  // serializable data — resolve each collection's cover image here first.
+  const storyTiles = collections.map((c) => ({
+    slug: c.slug,
+    title: c.title,
+    sanskritName: c.sanskritName,
+    myth: c.myth,
+    elementsCount: c.elements?.length,
+    image: coverImage(c),
+  }));
 
-export default function ArrivalPage() {
   return (
     <>
       <IntroLoader />
       <Nav />
 
-      <Hero />
+      <Hero
+        videoUrl={homePageContent.heroVideoUrl}
+        eyebrow={homePageContent.heroEyebrow}
+        headline={homePageContent.heroHeadline}
+      />
 
       <section className="mx-auto max-w-3xl px-6 pt-24 pb-24 text-center sm:pt-32 sm:pb-32">
         <Reveal>

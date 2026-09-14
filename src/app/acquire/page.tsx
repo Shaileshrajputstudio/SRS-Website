@@ -8,12 +8,6 @@ import { RevealText } from "@/components/motion/RevealText";
 import { getElements, getStoryCollections } from "@/data/collections";
 import { getProductBySlug } from "@/data/products";
 
-const collectionEntries = [...getElements(), ...getStoryCollections()];
-const pieces = collectionEntries.map((c) => ({
-  slug: c.slug,
-  label: "element" in c ? `${c.title} — ${c.element}` : c.title,
-}));
-
 export const metadata: Metadata = {
   title: "Converse",
   description: "Begin a conversation with Shailesh Rajput Studio.",
@@ -25,7 +19,13 @@ export default async function AcquirePage({
   searchParams: Promise<{ collection?: string; product?: string }>;
 }) {
   const { collection, product: productSlug } = await searchParams;
-  const product = productSlug ? getProductBySlug(productSlug) : undefined;
+  const [elements, storyCollections] = await Promise.all([getElements(), getStoryCollections()]);
+  const collectionEntries = [...elements, ...storyCollections];
+  const pieces = collectionEntries.map((c) => ({
+    slug: c.slug,
+    label: "element" in c ? `${c.title} — ${c.element}` : c.title,
+  }));
+  const product = productSlug ? await getProductBySlug(productSlug) : undefined;
   const initialMessage = product
     ? `I'm interested in ${product.romanized} (Product Code: ${product.details.productCode}).`
     : undefined;

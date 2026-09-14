@@ -5,7 +5,7 @@ import { Footer } from "@/components/Footer";
 import { Reveal } from "@/components/motion/Reveal";
 import { RevealText } from "@/components/motion/RevealText";
 import { PhoneIcon } from "@/components/ConnectIcons";
-import { studio } from "@/lib/studio";
+import { getStudioContactInfo } from "@/data/studioInfo";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -71,8 +71,9 @@ function ArrowUpRightIcon() {
   );
 }
 
-export default function ContactPage() {
-  const mapsQuery = encodeURIComponent(studio.address.full);
+export default async function ContactPage() {
+  const studioInfo = await getStudioContactInfo();
+  const mapsQuery = encodeURIComponent(studioInfo.addressFull);
   const mapsOpenUrl = `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
   const mapsEmbedUrl = `https://www.google.com/maps?q=${mapsQuery}&output=embed`;
 
@@ -114,7 +115,7 @@ export default function ContactPage() {
                   Studio Address
                 </p>
                 <p className="leading-relaxed text-[var(--ink)]">
-                  {studio.address.lines.map((line) => (
+                  {studioInfo.addressLines.map((line) => (
                     <span key={line} className="block">
                       {line}
                     </span>
@@ -132,13 +133,13 @@ export default function ContactPage() {
                   Phone
                 </p>
                 <a
-                  href={`tel:${studio.phone}`}
+                  href={`tel:${studioInfo.phone}`}
                   className="leading-relaxed text-[var(--ink)] hover:text-[var(--accent)]"
                 >
-                  {/* studio.phone is the raw dialable string (+919967788543) —
+                  {/* studioInfo.phone is the raw dialable string (+919967788543) —
                       display it grouped for readability without touching the
                       tel: href. */}
-                  +91 {studio.phone.slice(3, 8)} {studio.phone.slice(8)}
+                  +91 {studioInfo.phone.slice(3, 8)} {studioInfo.phone.slice(8)}
                 </a>
               </div>
             </Reveal>
@@ -152,10 +153,10 @@ export default function ContactPage() {
                   Email Address
                 </p>
                 <a
-                  href={`mailto:${studio.email}`}
+                  href={`mailto:${studioInfo.email}`}
                   className="leading-relaxed text-[var(--ink)] hover:text-[var(--accent)]"
                 >
-                  {studio.email}
+                  {studioInfo.email}
                 </a>
               </div>
             </Reveal>

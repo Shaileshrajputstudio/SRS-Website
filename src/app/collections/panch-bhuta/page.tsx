@@ -16,11 +16,10 @@ export const metadata: Metadata = {
   description: "Panch Bhuta, the studio's six elemental principles: Bhumi, Jal, Agni, Vayu, Vyom, and Dhatu.",
 };
 
-export default function PanchBhutaPage() {
-  const panchBhuta = getPanchBhuta();
-  const elements = getElements();
+export default async function PanchBhutaPage() {
+  const [panchBhuta, elements] = await Promise.all([getPanchBhuta(), getElements()]);
   const productsByElement = Object.fromEntries(
-    elements.map((el) => [el.slug, getProductsBySeries(el.title)]),
+    await Promise.all(elements.map(async (el) => [el.slug, await getProductsBySeries(el.title)] as const)),
   );
 
   return (

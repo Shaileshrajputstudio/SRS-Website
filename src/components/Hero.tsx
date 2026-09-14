@@ -13,7 +13,15 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 // from a slight zoom, the headline rises line by line) followed by a
 // gentle parallax drift as the visitor scrolls past it. Same markup,
 // copy and video as before — this only adds the motion around them.
-export function Hero() {
+export function Hero({
+  videoUrl,
+  eyebrow,
+  headline,
+}: {
+  videoUrl: string;
+  eyebrow: string;
+  headline: string;
+}) {
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const eyebrowRef = useRef<HTMLParagraphElement>(null);
@@ -72,7 +80,7 @@ export function Hero() {
         poster="/images/arrival-hero.svg"
         className="absolute inset-0 h-full w-full object-cover"
       >
-        <source src="/videos/arrival-hero.mp4" type="video/mp4" />
+        <source src={videoUrl} type="video/mp4" />
       </video>
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-black/30" />
       <SoundToggle src="/audio/arrival-theme.mp3" />
@@ -81,13 +89,13 @@ export function Hero() {
           ref={eyebrowRef}
           className="font-sans-ui mb-4 flex items-center gap-2 text-xs tracking-[0.2em] uppercase text-white/80"
         >
-          An Evolving Practice of Life and Design
+          {eyebrow}
         </p>
         <h1
           ref={headingRef}
           className="max-w-2xl text-4xl leading-tight sm:text-5xl md:text-6xl"
         >
-          Objects that carry soul and story into spaces.
+          {headline}
         </h1>
       </div>
     </section>

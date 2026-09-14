@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { studio } from "@/lib/studio";
+import { usePathname } from "next/navigation";
+import { useStudioInfo } from "@/components/StudioInfoContext";
 import { PhoneIcon, WhatsAppIcon, EmailIcon, InstagramIcon } from "@/components/ConnectIcons";
 
 function ChatIcon({ className = "h-5 w-5" }: { className?: string }) {
@@ -34,22 +35,28 @@ function CloseIcon({ className = "h-5 w-5" }: { className?: string }) {
 // generic bright-icon chat-widget look.
 export function FloatingContact() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  const studioInfo = useStudioInfo();
+
+  // The admin panel is an internal tool for the studio itself — a "reach
+  // the studio" widget doesn't belong there.
+  if (pathname?.startsWith("/admin")) return null;
 
   const options = [
-    { label: "Call", href: `tel:${studio.phone}`, icon: PhoneIcon, external: false },
+    { label: "Call", href: `tel:${studioInfo.phone}`, icon: PhoneIcon, external: false },
     {
       label: "WhatsApp",
-      href: `https://wa.me/${studio.whatsapp}`,
+      href: `https://wa.me/${studioInfo.whatsapp}`,
       icon: WhatsAppIcon,
       external: true,
     },
     {
       label: "Instagram DM",
-      href: studio.instagramDm,
+      href: studioInfo.instagramDm,
       icon: InstagramIcon,
       external: true,
     },
-    { label: "Email", href: `mailto:${studio.email}`, icon: EmailIcon, external: false },
+    { label: "Email", href: `mailto:${studioInfo.email}`, icon: EmailIcon, external: false },
   ];
 
   return (

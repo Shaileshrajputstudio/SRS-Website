@@ -69,7 +69,7 @@ export function ProductCategoryBrowser({
       <div className="mx-auto flex max-w-[1800px] flex-col gap-4 px-6 pt-8 pb-6 sm:flex-row sm:items-end sm:justify-between sm:px-10 sm:pt-10 lg:px-16">
         <div>
           <RevealText as="h1" className="text-2xl sm:text-3xl">
-            The Objects
+            The Series
           </RevealText>
           <Reveal delay={0.05}>
             <p className="font-sans-ui mt-2 text-sm text-[var(--ink)]/60">

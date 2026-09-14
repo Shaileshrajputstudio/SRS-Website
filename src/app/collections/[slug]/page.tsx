@@ -18,7 +18,8 @@ import {
 import { getProductsBySeries } from "@/data/products";
 
 export async function generateStaticParams() {
-  return getStoryCollections().map((c) => ({ slug: c.slug }));
+  const stories = await getStoryCollections();
+  return stories.map((c) => ({ slug: c.slug }));
 }
 
 export async function generateMetadata({
@@ -27,7 +28,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const collection = getCollectionBySlug(slug);
+  const collection = await getCollectionBySlug(slug);
   if (!collection) return {};
 
   return {
@@ -47,13 +48,12 @@ export default async function CollectionChapterPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const stories = getStoryCollections();
-  const collection = getCollectionBySlug(slug);
+  const [stories, collection] = await Promise.all([getStoryCollections(), getCollectionBySlug(slug)]);
   if (!collection || slug === "panch-bhuta") notFound();
 
   const index = stories.findIndex((c) => c.slug === slug);
   const next = stories[(index + 1) % stories.length];
-  const seriesProducts = getProductsBySeries(collection.title);
+  const seriesProducts = await getProductsBySeries(collection.title);
 
   return (
     <>

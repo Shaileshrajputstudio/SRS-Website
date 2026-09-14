@@ -8,9 +8,10 @@ import { StickyEnquire } from "@/components/StickyEnquire";
 import { Reveal } from "@/components/motion/Reveal";
 import { RevealText } from "@/components/motion/RevealText";
 import { Magnetic } from "@/components/motion/Magnetic";
-import { products, getProductBySlug } from "@/data/products";
+import { getAllProducts, getProductBySlug } from "@/data/products";
 
 export async function generateStaticParams() {
+  const products = await getAllProducts();
   return products.map((p) => ({ slug: p.slug }));
 }
 
@@ -20,7 +21,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await getProductBySlug(slug);
   if (!product) return {};
 
   return {
@@ -40,7 +41,7 @@ export default async function ProductPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await getProductBySlug(slug);
   if (!product) notFound();
 
   const specs = [
