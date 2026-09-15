@@ -1,7 +1,16 @@
 "use client";
 
 import { useActionState, useState } from "react";
+import Link from "next/link";
 import { submitEnquiry, type EnquiryFormState } from "@/app/acquire/actions";
+
+function CheckIcon({ className = "h-6 w-6" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+      <path d="M5 13l4.5 4.5L19 8" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
 
 export type AcquirePieceOption = {
   slug: string;
@@ -33,11 +42,26 @@ export function AcquireForm({
 
   if (state.success) {
     return (
-      <div className="font-sans-ui mx-auto max-w-xl text-center">
-        <p className="text-xl text-[var(--ink)]">Thank you — your message has been sent.</p>
-        <p className="mt-3 text-sm text-[var(--ink)]/60">
-          The studio will follow up with you directly.
+      <div className="animate-fade-up mx-auto max-w-xl py-8 text-center">
+        <span className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-full border border-[var(--accent)]/40 bg-[var(--accent)]/10 text-[var(--accent)]">
+          <CheckIcon />
+        </span>
+        <p className="font-sans-ui mb-3 text-xs tracking-[0.2em] text-[var(--ash)] uppercase">
+          Message sent
         </p>
+        <p className="mb-3 text-2xl leading-snug text-[var(--ink)] sm:text-3xl">
+          Thank you for reaching out.
+        </p>
+        <p className="mx-auto max-w-sm text-[var(--ink)]/60 leading-relaxed">
+          The studio has received your message and will follow up with you
+          directly, no automated replies in between.
+        </p>
+        <Link
+          href="/products"
+          className="font-sans-ui mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-[var(--ink)] px-7 py-3.5 text-sm font-medium text-white transition hover:bg-[var(--accent)] hover:text-[var(--ink)]"
+        >
+          Continue Exploring
+        </Link>
       </div>
     );
   }
