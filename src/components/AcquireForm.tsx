@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useStudioInfo } from "@/components/StudioInfoContext";
+import { useActionState, useState } from "react";
+import { submitEnquiry, type EnquiryFormState } from "@/app/acquire/actions";
 
 export type AcquirePieceOption = {
   slug: string;
@@ -15,6 +15,8 @@ const intents = [
   "Press or collaboration",
 ];
 
+const initialState: EnquiryFormState = {};
+
 export function AcquireForm({
   pieces,
   initialCollection,
@@ -24,47 +26,34 @@ export function AcquireForm({
   initialCollection?: string;
   initialMessage?: string;
 }) {
-  const [name, setName] = useState("");
-  const [contact, setContact] = useState("");
   const [piece, setPiece] = useState(initialCollection ?? "");
   const [intent, setIntent] = useState(intents[0]);
-  const [geography, setGeography] = useState("");
-  const [message, setMessage] = useState(initialMessage ?? "");
-  const studioInfo = useStudioInfo();
+  const [state, formAction, isPending] = useActionState(submitEnquiry, initialState);
+  const pieceLabel = pieces.find((p) => p.slug === piece)?.label ?? "";
 
-  function buildMessage() {
-    const pieceLabel =
-      pieces.find((p) => p.slug === piece)?.label || piece || "Not specified";
-    return [
-      `Hi, I'd like to begin a conversation with the studio.`,
-      ``,
-      `Name: ${name || "—"}`,
-      `Contact: ${contact || "—"}`,
-      `Collection of interest: ${pieceLabel}`,
-      `Intent: ${intent}`,
-      `Location: ${geography || "—"}`,
-      message ? `Message: ${message}` : null,
-    ]
-      .filter(Boolean)
-      .join("\n");
-  }
-
-  function handleSubmit() {
-    const subject = encodeURIComponent("Enquiry — Shailesh Rajput Studio");
-    const body = encodeURIComponent(buildMessage());
-    window.location.href = `mailto:${studioInfo.email}?subject=${subject}&body=${body}`;
+  if (state.success) {
+    return (
+      <div className="font-sans-ui mx-auto max-w-xl text-center">
+        <p className="text-xl text-[var(--ink)]">Thank you — your message has been sent.</p>
+        <p className="mt-3 text-sm text-[var(--ink)]/60">
+          The studio will follow up with you directly.
+        </p>
+      </div>
+    );
   }
 
   return (
-    <div className="font-sans-ui mx-auto max-w-xl">
+    <form action={formAction} className="font-sans-ui mx-auto max-w-xl">
+      <input type="hidden" name="collectionLabel" value={pieceLabel} />
+      <input type="hidden" name="intent" value={intent} />
       <div className="mb-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
         <div>
           <label className="mb-2 block text-xs tracking-[0.15em] text-[var(--ash)] uppercase">
             Name
           </label>
           <input
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            name="name"
+            required
             className="w-full rounded-lg border border-[var(--line)] bg-[var(--footer-bg)] px-4 py-3 text-base text-[var(--ink)] outline-none sm:text-sm focus:border-[var(--ink)]"
           />
         </div>
@@ -73,8 +62,8 @@ export function AcquireForm({
             Email or Phone
           </label>
           <input
-            value={contact}
-            onChange={(e) => setContact(e.target.value)}
+            name="contact"
+            required
             className="w-full rounded-lg border border-[var(--line)] bg-[var(--footer-bg)] px-4 py-3 text-base text-[var(--ink)] outline-none sm:text-sm focus:border-[var(--ink)]"
           />
         </div>
@@ -135,8 +124,7 @@ export function AcquireForm({
           Location (City / Country)
         </label>
         <input
-          value={geography}
-          onChange={(e) => setGeography(e.target.value)}
+          name="location"
           className="w-full rounded-lg border border-[var(--line)] bg-[var(--footer-bg)] px-4 py-3 text-base text-[var(--ink)] outline-none sm:text-sm focus:border-[var(--ink)]"
         />
       </div>
@@ -146,23 +134,25 @@ export function AcquireForm({
           Message (Optional)
         </label>
         <textarea
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          name="message"
+          defaultValue={initialMessage}
           rows={4}
           className="w-full rounded-lg border border-[var(--line)] bg-[var(--footer-bg)] px-4 py-3 text-base text-[var(--ink)] outline-none sm:text-sm focus:border-[var(--ink)]"
         />
       </div>
 
+      {state.error && <p className="mb-4 text-center text-sm text-red-600">{state.error}</p>}
+
       <button
-        onClick={handleSubmit}
-        className="w-full rounded-full bg-[var(--ink)] px-6 py-3.5 text-sm font-medium text-white transition hover:bg-[var(--accent)] hover:text-[var(--ink)]"
+        type="submit"
+        disabled={isPending}
+        className="w-full rounded-full bg-[var(--ink)] px-6 py-3.5 text-sm font-medium text-white transition hover:bg-[var(--accent)] hover:text-[var(--ink)] disabled:opacity-60"
       >
-        Send Message
+        {isPending ? "Sending…" : "Send Message"}
       </button>
       <p className="mt-3 text-center text-xs text-[var(--ink)]/50">
-        Opens your email app with this pre-filled, nothing is sent
-        automatically.
+        Sent directly to the studio. We&apos;ll follow up with you.
       </p>
-    </div>
+    </form>
   );
 }
