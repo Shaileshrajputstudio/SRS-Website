@@ -23,6 +23,7 @@ export type Product = {
     dimensions: { height: string; width: string; depth: string };
     weight: string;
     leadTime: string;
+    lightingSpec: string;
   };
   images: string[];
 };
@@ -43,6 +44,7 @@ type ProductRow = {
   dim_depth: string;
   weight: string;
   lead_time: string;
+  lighting_spec: string;
   images: string[] | null;
 };
 
@@ -62,6 +64,7 @@ function mapProduct(row: ProductRow): Product {
       dimensions: { height: row.dim_height, width: row.dim_width, depth: row.dim_depth },
       weight: row.weight,
       leadTime: row.lead_time,
+      lightingSpec: row.lighting_spec,
     },
     images: row.images ?? [],
   };

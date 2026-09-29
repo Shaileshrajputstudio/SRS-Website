@@ -46,6 +46,7 @@ export async function saveProduct(
     dim_depth: (formData.get("dimDepth") as string) || "—",
     weight: (formData.get("weight") as string) || "—",
     lead_time: (formData.get("leadTime") as string) || "Enquire for availability.",
+    lighting_spec: (formData.get("lightingSpec") as string) || "—",
     images,
   };
 

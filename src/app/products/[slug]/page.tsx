@@ -52,6 +52,7 @@ export default async function ProductPage({
       value: `Height: ${product.details.dimensions.height}   Width: ${product.details.dimensions.width}   Depth: ${product.details.dimensions.depth}`,
     },
     { label: "Weight", value: product.details.weight },
+    { label: "Lighting", value: product.details.lightingSpec },
     { label: "Lead Time", value: product.details.leadTime },
   ];
 

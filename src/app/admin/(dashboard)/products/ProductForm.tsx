@@ -26,6 +26,7 @@ export type ProductRecord = {
   dim_depth: string;
   weight: string;
   lead_time: string;
+  lighting_spec: string;
   images: string[];
 };
 
@@ -154,6 +155,16 @@ export function ProductForm({
               <Label htmlFor="leadTime">Lead time</Label>
               <Input id="leadTime" name="leadTime" defaultValue={product?.lead_time} />
             </div>
+          </div>
+
+          <div>
+            <Label htmlFor="lightingSpec">Lighting specification</Label>
+            <Input
+              id="lightingSpec"
+              name="lightingSpec"
+              defaultValue={product?.lighting_spec}
+              placeholder="e.g. LED Bulb G4 | 5W | 400LM | 220-240V | Warm White (2700K)"
+            />
           </div>
         </Card>
 

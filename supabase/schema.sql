@@ -30,6 +30,7 @@ create table if not exists products (
   dim_depth text not null default '—',
   weight text not null default '—',
   lead_time text not null default 'Enquire for availability.',
+  lighting_spec text not null default '—',
   images text[] not null default '{}',
   sort_order int not null default 0,
   created_at timestamptz not null default now(),
