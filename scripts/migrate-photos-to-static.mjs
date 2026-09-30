@@ -24,7 +24,7 @@ function photoIndex(filename) {
   return m ? parseInt(m[1], 10) : 999;
 }
 
-const { data: live, error } = await supabase.from("products").select("id,slug,display_name,images");
+const { data: live, error } = await supabase.from("products").select("id,slug,display_name,images,placeholder");
 if (error) throw error;
 const liveByNorm = new Map(live.map((p) => [norm(p.display_name), p]));
 
@@ -71,7 +71,9 @@ for (const srcDir of SRC_DIRS) {
       fs.copyFileSync(path.join(dir, file), path.join(destDir, `${i + 1}.jpg`));
     });
 
-    const { error: updErr } = await supabase.from("products").update({ images: newPaths }).eq("id", liveP.id);
+    const updatePayload = { images: newPaths };
+    if (liveP.placeholder) updatePayload.placeholder = false;
+    const { error: updErr } = await supabase.from("products").update(updatePayload).eq("id", liveP.id);
     if (updErr) {
       console.error(`  FAILED db update: ${updErr.message}`);
       continue;
