@@ -71,7 +71,7 @@ export function StoriesFan({ stories }: { stories: StoryTile[] }) {
               >
                 <p className="font-sans-ui mb-2 text-xs tracking-[0.15em] whitespace-nowrap text-white/70 uppercase">
                   {c.sanskritName}
-                  {c.elementsCount ? ` · ${c.elementsCount} Elements` : " · Story Series"}
+                  {!c.elementsCount && " · Story Series"}
                 </p>
                 <p className="mb-2 text-2xl leading-tight">{c.title}</p>
                 <p className="line-clamp-2 max-w-xs text-sm text-white/80">{c.myth}</p>
@@ -101,7 +101,7 @@ export function StoriesFan({ stories }: { stories: StoryTile[] }) {
             <p className="text-lg">{c.title}</p>
             <p className="font-sans-ui text-xs tracking-[0.15em] text-[var(--ash)] uppercase">
               {c.sanskritName}
-              {c.elementsCount ? ` · ${c.elementsCount} Elements` : " · Story Series"}
+              {!c.elementsCount && " · Story Series"}
             </p>
           </Link>
         ))}

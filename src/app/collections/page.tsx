@@ -59,7 +59,7 @@ export default async function CollectionsPage() {
               </div>
               <p className="font-sans-ui mb-2 text-xs tracking-[0.2em] text-[var(--ash)] uppercase">
                 {c.sanskritName}
-                {c.elements ? ` · ${c.elements.length} Elements` : " · Story Series"}
+                {!c.elements && " · Story Series"}
               </p>
               <h2 className="mb-2 text-xl">{c.title}</h2>
               <p className="text-sm leading-relaxed text-[var(--ink)]/70">{c.myth}</p>
