@@ -9,8 +9,8 @@ import { studio } from "@/lib/studio";
 import { Magnetic } from "@/components/motion/Magnetic";
 
 const links = [
-  { href: "/products", label: "Shop by Series" },
-  { href: "/collections", label: "Shop by Stories" },
+  { href: "/products", label: "Shop by Category" },
+  { href: "/collections", label: "Shop by Katha" },
   { href: "/world", label: "The Studio" },
   { href: "/sadhana", label: "Sadhana" },
   { href: "/films", label: "Films" },
