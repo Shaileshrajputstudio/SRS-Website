@@ -70,7 +70,7 @@ export function Marquee<T>({
 
     // Drag-to-scrub: a plain click still navigates (FeaturedCarousel's
     // items are links) — only a drag that actually moves past a small
-    // threshold suppresses the click that would otherwise fire on
+    // threshold captures the pointer and suppresses the click that would otherwise fire on
     // pointerup, via a capture-phase listener below.
     let dragging = false;
     let dragMoved = false;
@@ -86,19 +86,25 @@ export function Marquee<T>({
       dragPointerId = e.pointerId;
       dragStartClientX = e.clientX;
       dragStartX = x;
-      try {
-        wrapper.setPointerCapture(e.pointerId);
-      } catch {
-        // No active pointer session for this id (seen with synthetic/
-        // programmatic pointer events) — dragging still works via the
-        // window-level move/up listeners below, capture just isn't
-        // guaranteed once the pointer leaves the wrapper's bounds.
-      }
+      // Pointer capture is deliberately NOT taken here: capturing on
+      // pointerdown retargets the click to the wrapper instead of the
+      // product link underneath, so a plain click never navigated. It's
+      // taken in onPointerMove once the pointer has actually dragged.
     };
     const onPointerMove = (e: PointerEvent) => {
       if (!dragging || e.pointerId !== dragPointerId) return;
       const dx = e.clientX - dragStartClientX;
-      if (Math.abs(dx) > 4) dragMoved = true;
+      if (!dragMoved && Math.abs(dx) > 4) {
+        dragMoved = true;
+        try {
+          wrapper.setPointerCapture(e.pointerId);
+        } catch {
+          // No active pointer session for this id (seen with synthetic/
+          // programmatic pointer events) — dragging still works via the
+          // window-level move/up listeners, capture just isn't guaranteed
+          // once the pointer leaves the wrapper's bounds.
+        }
+      }
       x = wrapX(dragStartX + dx);
       gsap.set(trackEl, { x });
     };

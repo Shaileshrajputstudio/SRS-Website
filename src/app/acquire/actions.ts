@@ -9,7 +9,7 @@ export type EnquiryFormState = { success?: boolean; error?: string };
 // directly. Who actually receives Converse enquiries is an infra decision,
 // not content, so it's pinned to an env var instead (same pattern as
 // PASSWORD_RECOVERY_EMAIL).
-const ENQUIRY_TO_EMAIL = process.env.ENQUIRY_EMAIL || "it.shaileshrajputstudio@gmail.com";
+const ENQUIRY_TO_EMAIL = process.env.ENQUIRY_EMAIL || "namaste@shaileshrajputstudio.com";
 
 export async function submitEnquiry(
   _prevState: EnquiryFormState,
