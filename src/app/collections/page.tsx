@@ -23,7 +23,7 @@ export default async function CollectionsPage() {
       <section className="mx-auto max-w-3xl px-6 pt-20 pb-16 text-center sm:pt-28">
         <Reveal>
           <p className="font-sans-ui mb-4 flex items-center justify-center gap-2 text-xs tracking-[0.2em] text-[var(--ash)] uppercase">
-            The Stories
+            The Kathas
           </p>
         </Reveal>
         <RevealText as="h1" className="mb-6 text-4xl leading-tight sm:text-5xl">
